@@ -1,4 +1,6 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable no-shadow */
+/* eslint-disable prettier/prettier */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable prettier/prettier */
 /* eslint-disable no-undef */
@@ -7,12 +9,17 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
+import { useHistory } from 'react-router-dom';
+import { FirebaseContext } from '../context/firebase';
 import { HeaderContainer } from '../containers/header';
 import { FooterContainer } from '../containers/footer';
 import { Form } from '../components';
+import * as ROUTES from '../constants/routes';
 
 export default function Signin() {
+    const history = useHistory()
+    const { firebase } = useContext(FirebaseContext);
     const [emailAddress, setEmailAddress] = useState();
     const [password, setPassword] = useState();
     const [error, setError] = useState('');
@@ -22,7 +29,19 @@ export default function Signin() {
         event.preventDefault();
 
         // firebase work here!
-    }
+        firebase   
+            .auth()
+            .signInWithEmailAndPassword(emailAddress, password)
+            .then(() => {
+                // push to the browse page
+                history.push(ROUTES.BROWSE);
+            })
+            .catch((error) => {
+                setEmailAddress('');
+                setPassword('');
+                setError(error.message);
+            })
+    };
 
     return (
         <>
