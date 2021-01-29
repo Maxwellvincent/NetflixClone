@@ -9,7 +9,7 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import {Link as ReactRouterLink} from 'react-router-dom';
-import { Background, ButtonLink, Container, Logo, Feature, Text, FeatureCallOut, Link, Group } from './styles/header';
+import { Background, ButtonLink, Container, Logo, Feature, Text, FeatureCallOut, Link, Group, Picture, Profile } from './styles/header';
 
 export default function Header({ bg = true, children, ...restProps }) {
   return bg ? <Background {...restProps}>{children}</Background> : children;
@@ -20,6 +20,14 @@ Header.Feature = function HeaderFeature({ children, ...restProps}) {
 }
 Header.FeatureCallOut = function HeaderFeatureCallOut({ children, ...restProps}) {
   return <FeatureCallOut {...restProps}>{children}</FeatureCallOut>;
+}
+
+Header.Profile = function HeaderProfile({ children, ...restProps}) {
+  return <Profile {...restProps}>{children}</Profile>
+}
+
+Header.Picture = function HeaderPicture({src, ...restProps}) {
+  return <Picture {...restProps} src={`/images/users/${src}.png`}/>
 }
 
 Header.Text = function HeaderText({ children, ...restProps}) {
