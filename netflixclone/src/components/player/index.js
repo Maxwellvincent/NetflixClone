@@ -1,18 +1,18 @@
-/* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable prettier/prettier */
-/* eslint-disable no-undef */
+/* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable no-unused-vars */
+/* eslint-disable max-len */
 /* eslint-disable no-shadow */
-/* eslint-disable func-names */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/prop-types */
+/* eslint-disable prettier/prettier */
 import React, { useState, useContext, createContext } from 'react';
 import ReactDOM from 'react-dom';
-import { Container, Button, Overlay, Inner } from './styles/player';
+import { Container, Button, Overlay, Inner, Close } from './styles/player';
 
 export const PlayerContext = createContext();
 
-export default function ({ children, ...restProps }) {
+export default function Player({ children, ...restProps }) {
   const [showPlayer, setShowPlayer] = useState(false);
 
   return (
@@ -27,11 +27,12 @@ Player.Video = function PlayerVideo({ src, ...restProps }) {
 
   return showPlayer
     ? ReactDOM.createPortal(
-        <Overlay onClick={() => setShowPlayer(false)} {...restProps}>
+        <Overlay onClick={() => setShowPlayer(false)} data-testid="player">
           <Inner>
             <video id="netflix-player" controls>
               <source src={src} type="video/mp4" />
             </video>
+            <Close />
           </Inner>
         </Overlay>,
         document.body
@@ -43,7 +44,7 @@ Player.Button = function PlayerButton({ ...restProps }) {
   const { showPlayer, setShowPlayer } = useContext(PlayerContext);
 
   return (
-    <Button onClick={() => setShowPlayer((showPlayer) => !showPlayer)}>
+    <Button onClick={() => setShowPlayer((showPlayer) => !showPlayer)} {...restProps}>
       Play
     </Button>
   );
